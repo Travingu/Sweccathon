@@ -1,0 +1,177 @@
+/*
+ This CSS is for sign-in.html, submit-report.html, browse-reports.html
+ Classes used:
+   .navbar, .logo, .menu, .nav-item,
+   .btn, .submit-button, .cta-button,
+   .auth-section, .submit-section, .browse-section,
+   .company-list, .report-detail
+*/
+
+/* Global Reset */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Body */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #e5e5e5;
+  color: #333;
+  line-height: 1.6;
+}
+
+/* Navbar */
+.navbar {
+  background-color: #000;
+  display: flex;
+  align-items: center;
+  padding: 0 40px;
+}
+.logo {
+  color: #ffffff;
+  font-size: 24px;
+  font-weight: bold;
+  padding: 14px 20px;
+  text-decoration: none;
+}
+.menu {
+  display: flex;
+  margin-left: auto;
+}
+.nav-item {
+  color: #ffffff;
+  text-decoration: none;
+  padding: 14px 20px;
+  font-size: 16px;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+.nav-item:hover,
+.nav-item.active {
+  background-color: #14213d;
+}
+
+/* Buttons & CTAs */
+.btn,
+.submit-button,
+.cta-button {
+  display: inline-block;
+  background-color: #fca311;
+  color: #ffffff;
+  padding: 12px 24px;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+.btn:hover,
+.submit-button:hover,
+.cta-button:hover {
+  background-color: #e64a00;
+}
+
+/* Sign-In Section */
+.auth-section {
+  text-align: center;
+  padding: 60px 20px;
+  background-color: #ffffff;
+  border: 1px solid #14213d;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  margin: 40px auto;
+  max-width: 800px;
+}
+.auth-section h1 {
+  font-size: 36px;
+  margin-bottom: 20px;
+  color: #14213d;
+}
+.auth-section p {
+  font-size: 18px;
+  margin-bottom: 30px;
+}
+
+/* Submit Report Section */
+.submit-section {
+  padding: 40px 20px;
+  background-color: #ffffff;
+  border: 1px solid #14213d;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  margin: 40px auto;
+  max-width: 800px;
+}
+.submit-section h1 {
+  font-size: 32px;
+  margin-bottom: 20px;
+  color: #14213d;
+}
+.submit-section form {
+  display: grid;
+  gap: 15px;
+}
+.submit-section label {
+  font-weight: bold;
+}
+.submit-section input,
+.submit-section textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+/* Browse Reports Section */
+.browse-section {
+  padding: 40px 20px;
+  background-color: #ffffff;
+  border: 1px solid #14213d;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  margin: 40px auto;
+  max-width: 800px;
+}
+.browse-section h1 {
+  font-size: 32px;
+  margin-bottom: 20px;
+  color: #14213d;
+}
+.company-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 30px;
+}
+.company-list button {
+  background-color: #fca311;
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+.company-list button:hover {
+  background-color: #e64a00;
+}
+.report-detail {
+  padding: 20px;
+  background-color: #ffffff;
+  border: 1px solid #e5e5e5;
+  border-radius: 6px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+.report-detail h2 {
+  font-size: 28px;
+  margin-bottom: 15px;
+  color: #14213d;
+}
+.report-detail ul {
+  list-style: disc inside;
+  margin-left: 10px;
+}

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Discussions - LOCKEDIN</title>
+  <link rel="stylesheet" href="lockedin.css">
+</head>
+<body>
+    <div class="navbar">
+        <a class="logo" href="lockedin.html">LOCKEDIN</a>
+        <div class="menu">
+          <div class="dropdown">
+            <button class="dropbtn">About Us</button>
+            <div class="dropdown-content">
+              <a href="lockedin.html">Our Mission</a>
+              <a href="lockedin.html">Team</a>
+              <a href="lockedin.html">Contact</a>
+            </div>
+          </div>
+          <div class="dropdown">
+            <button class="dropbtn">Job Board</button>
+            <div class="dropdown-content">
+              <a href="jobs.html">Post a Job</a>
+              <a href="jobs.html">Browse Jobs</a>
+            </div>
+          </div>
+          <div class="dropdown">
+            <button class="dropbtn">Discussions</button>
+            <div class="dropdown-content">
+              <a href="discussions.html">General</a>
+              <a href="discussions.html">Career Advice</a>
+              <a href="discussions.html">Tech Talk</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+  <div class="main-section">
+    <div class="job-listings">
+      <h1>Community Discussions</h1>
+      <form id="questionForm">
+        <input type="text" id="questionInput" placeholder="Post a question..." required style="width: 100%; padding: 10px;">
+        <button type="submit" class="cta-button" style="margin-top: 10px;">Post</button>
+      </form>
+
+      <ul id="discussionList" class="job-list" style="margin-top: 30px;">
+        
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById('questionForm');
+    const input = document.getElementById('questionInput');
+    const list = document.getElementById('discussionList');
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const question = input.value.trim();
+      if (question !== "") {
+        const li = document.createElement('li');
+        li.textContent = question;
+        list.appendChild(li);
+        input.value = "";
+      }
+    });
+  </script>
+</body>
+</html>

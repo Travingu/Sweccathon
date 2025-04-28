@@ -17,16 +17,32 @@
     </header>
 
     <main class="container auth-section">
-        <h1>Sign In</h1>
-        <p>Use your Google account to sign in and unlock features.</p>
-        <button id="google-signin" class="btn">Sign in with Google</button>
+      <h1>Sign In</h1>
+      <p>Use your Google account to sign in and unlock features.</p>
+      <button id="google-signin" class="btn">Sign in with Google</button>
     </main>
-
-  <script>
-    // Placeholder for Google auth
-    document.getElementById('google-signin').onclick = () => {
-      alert('Trigger Google Sign-In flow here');
-    };
-  </script>
+  
+    <script type="module">
+      console.log("auth UI script loaded");
+      document.getElementById('google-signin').addEventListener('click', () => {
+        console.log("Button clicked");
+      });
+      import { 
+        signInWithGoogle, 
+        onAuthStateChangedHelper 
+      } from './firebase/firebase.js'; 
+  
+      const btn = document.getElementById('google-signin');
+  
+      // Wire up click
+      btn.addEventListener('click', signInWithGoogle);
+  
+      // If already signed in, send them to the submit page
+      onAuthStateChangedHelper(user => {
+        if (user) {
+          window.location.href = 'submit-report.html';
+        }
+      });
+    </script>
 </body>
 </html>

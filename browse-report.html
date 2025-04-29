@@ -8,12 +8,12 @@
 </head>
 <body>
     <header class="navbar">
-    <a class="logo" href="index.html">LOCKEDIN</a>
-    <nav class="menu">
-        <a href="sign-in.html" class="nav-item">Sign In</a>
-        <a href="submit-report.html" class="nav-item">Submit Report</a>
-        <a href="browse-report.html" class="nav-item active">Browse Reports</a>
-    </nav>
+        <a class="logo" href="index.html">LOCKEDIN</a>
+        <nav class="menu">
+            <a href="submit-report.html" class="nav-item">Submit Report</a>
+            <a href="browse-report.html" class="nav-item">Browse Reports</a>
+            <div id="auth-control"></div>
+        </nav>
     </header>
 
     <main class="container browse-section">
@@ -28,6 +28,7 @@
     </main>
 
     <!-- Remove later -->
+    <script type="module" src="./auth-control.js"></script>
     <script>
         const mockReports = [
             { company: 'Chase', rounds: [
@@ -60,5 +61,6 @@
             ).join('');
         }
     </script>
+    
 </body>
 </html>

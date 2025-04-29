@@ -9,16 +9,14 @@
 </head>
 <body>
   <!-- Navigation -->
-  <div class="navbar">
+  <header class="navbar">
     <a class="logo" href="index.html">LOCKEDIN</a>
-    <div class="menu">
-      <nav class="menu">
-        <a href="sign-in.html" class="nav-item active">Sign In</a>
-        <a href="submit-report.html" class="nav-item">Submit Report</a>
-        <a href="browse-report.html" class="nav-item">Browse Reports</a>
-      </nav>
-    </div>
-  </div>
+    <nav class="menu">
+      <a href="submit-report.html" class="nav-item">Submit Report</a>
+      <a href="browse-report.html" class="nav-item">Browse Reports</a>
+      <div id="auth-control"></div>
+    </nav>
+  </header>
 
   <!-- Hero Section -->
   <main class="main-section">
@@ -74,6 +72,6 @@
     </section>
   </main>
 
-
+  <script type="module" src="./auth-control.js"></script>
 </body>
 </html>

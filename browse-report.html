@@ -1,66 +1,84 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>LOCKEDIN – Browse Reports</title>
-    <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>LOCKEDIN – Browse Reports</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-    <header class="navbar">
-        <a class="logo" href="index.html">LOCKEDIN</a>
-        <nav class="menu">
-            <a href="submit-report.html" class="nav-item">Submit Report</a>
-            <a href="browse-report.html" class="nav-item">Browse Reports</a>
-            <div id="auth-control"></div>
-        </nav>
-    </header>
+  <header class="navbar">
+    <a class="logo" href="index.html">LOCKEDIN</a>
+    <nav class="menu">
+      <a href="submit-report.html" class="nav-item">Submit Report</a>
+      <a href="browse-report.html" class="nav-item active">Browse Reports</a>
+      <div id="auth-control"></div>
+    </nav>
+  </header>
 
-    <main class="container browse-section">
-        <h1>Browse Interview Questions</h1>
-        <div id="company-list" class="company-list">
-        <!-- JavaScript will render buttons -->
-        </div>
+  <main class="container browse-section">
+    <h1>Browse Interview Reports</h1>
+    <div id="company-list" class="company-list"></div>
+    <div id="report-detail" class="report-detail"></div>
+  </main>
 
-        <div id="report-detail" class="report-detail">
-        <!-- Selected report details appear here -->
-        </div>
-    </main>
+  <!-- Navbar auth toggle -->
+  <script type="module" src="./auth-control.js"></script>
 
-    <!-- Remove later -->
-    <script type="module" src="./auth-control.js"></script>
-    <script>
-        const mockReports = [
-            { company: 'Chase', rounds: [
-                { roundNum:1, type:'phone', questions:['Tell me about yourself','Why Chase?'] }
-            ]
-            },
-            { company: 'Google', rounds: [
-                { roundNum:1, type:'on-site', questions:['Design a URL shortener'] }
-            ]
-            }
-        ];
+  <!-- Firestore browsing logic -->
+  <script type="module">
+    import { auth, firestore, onAuthStateChangedHelper } from './firebase/firebase.js';
+    import {
+      collection,
+      query,
+      getDocs,
+      orderBy
+    } from 'https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js';
 
-        const companies = [...new Set(mockReports.map(r => r.company))];
-        const listEl = document.getElementById('company-list');
-        companies.forEach(name => {
-            const btn = document.createElement('button');
-            btn.textContent = name;
-            btn.onclick = () => showDetail(name);
-            listEl.appendChild(btn);
-        });
+    // 1) Guard: redirect if not signed in or hasn't submitted
+    onAuthStateChangedHelper(async user => {
+      if (!user) {
+        return window.location.href = 'sign-in.html';
+      }
+      // Optional check for hasSubmitted:
+      // const userDoc = await getDoc(doc(firestore, 'users', user.uid));
+      // if (!userDoc.exists() || !userDoc.data().hasSubmitted) {
+      //   return window.location.href = 'submit-report.html';
+      // }
 
-        function showDetail(company) {
-            const detail = mockReports.filter(r => r.company === company)[0];
-            const container = document.getElementById('report-detail');
-            container.innerHTML = `<h2>${company}</h2>` +
-            detail.rounds.map(rr =>
-                `<div><strong>Round ${rr.roundNum} (${rr.type})</strong><ul>` +
-                rr.questions.map(q => `<li>${q}</li>`).join('') +
-                `</ul></div>`
-            ).join('');
-        }
-    </script>
-    
+      // 2) Fetch all reports, sorted by timestamp desc
+      const reportsSnap = await getDocs(query(
+        collection(firestore, 'reports'),
+        orderBy('timestamp', 'desc')
+      ));
+      const reports = reportsSnap.docs.map(d => ({ id: d.id, ...d.data() }));
+      const companies = [...new Set(reports.map(r => r.company))];
+
+      // 3) Render company buttons
+      const listEl = document.getElementById('company-list');
+      listEl.innerHTML = '';
+      companies.forEach(name => {
+        const btn = document.createElement('button');
+        btn.textContent = name;
+        btn.onclick = () => showDetail(name, reports);
+        listEl.appendChild(btn);
+      });
+    });
+
+    // 4) Show details for the selected company
+    function showDetail(company, reports) {
+      const filtered = reports.filter(r => r.company === company);
+      const container = document.getElementById('report-detail');
+      container.innerHTML = `<h2>${company}</h2>` +
+        filtered.map(r =>
+          r.rounds.map(rr =>
+            `<div>
+               <strong>Round ${rr.roundNum} (${rr.type})</strong>
+               <ul>${rr.questions.map(q => `<li>${q}</li>`).join('')}</ul>
+             </div>`
+          ).join('')
+        ).join('');
+    }
+  </script>
 </body>
 </html>

@@ -7,65 +7,89 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <header class="navbar">
-    <a class="logo" href="index.html">LOCKEDIN</a>
-    <nav class="menu">
-      <a href="submit-report.html" class="nav-item active">Submit Report</a>
-      <a href="browse-report.html" class="nav-item">Browse Reports</a>
-      <div id="auth-control"></div>
-    </nav>
-  </header>
+    <header class="navbar">
+        <a class="logo" href="index.html">LOCKEDIN</a>
+        <nav class="menu">
+          <a href="submit-report.html" class="nav-item active">Submit Report</a>
+          <a href="browse-report.html" class="nav-item">Browse Reports</a>
+          <div id="auth-control"></div>
+        </nav>
+      </header>
 
-  <main class="container submit-section">
-    <h1>Submit Your Interview Report</h1>
-    <form id="report-form">
-      <label for="company">Company Name</label>
-      <input type="text" id="company" name="company"
-             placeholder="e.g. Acme Corp" required />
+    <main class="container submit-section">
+        <h1>Submit Your Interview Report</h1>
+        <form id="report-form">
+            <label for="company">Company Name</label>
+            <input type="text" id="company" name="company" placeholder="e.g. Acme Corp" required>
 
-      <label for="rounds">Number of Rounds</label>
-      <input type="number" id="rounds" name="rounds"
-             min="1" required />
+            <label for="rounds">Number of Rounds</label>
+            <input type="number" id="rounds" name="rounds" min="1" required>
 
-      <label for="questions">Questions (one per line)</label>
-      <textarea id="questions" name="questions" rows="5"
-        placeholder="Tell me about yourself\nReverse a linked list"
-        required></textarea>
+            <label for="questions">Questions (one per line)</label>
+            <textarea id="questions" name="questions" rows="5" placeholder="Tell me about yourself\nReverse a linked list" required></textarea>
 
-      <button type="submit" class="submit-button">Submit Report</button>
-    </form>
-  </main>
+            <button type="submit" class="submit-button">Submit Report</button>
+        </form>
+    </main> 
+     <!-- Navbar auth toggle -->
+    <script type="module" src="./auth-control.js"></script>
 
-  <!-- Navbar auth toggle -->
-  <script type="module" src="./auth-control.js"></script>
-
-  <!-- Auth guard + form stub -->
-  <script type="module">
-    import { auth, onAuthStateChangedHelper } from './firebase/firebase.js';
-
-    // 1) If not signed in, send to sign-in page
-    onAuthStateChangedHelper(user => {
-      if (!user) {
-        window.location.href = 'sign-in.html';
-      }
-    });
-
-    // 2) Stub submission (wire up Firestore here later)
-    document.getElementById('report-form')
-      .addEventListener('submit', e => {
-        e.preventDefault();
-        const data = {
-          company:   e.target.company.value.trim(),
-          rounds:    parseInt(e.target.rounds.value, 10),
-          questions: e.target.questions.value
-                        .split('\n')
-                        .map(q => q.trim())
-                        .filter(q => q)
-        };
-        console.log('Submitting report', data);
-        alert('Report submitted!');
-        window.location.href = 'browse-report.html';
-      });
-  </script>
+    <!-- Auth guard + form stub -->
+    <script type="module">
+        import { auth, onAuthStateChangedHelper } from './firebase/firebase.js';
+        // 1) If not signed in, send to sign-in page
+        onAuthStateChangedHelper(user => {
+        if (!user) {
+            window.location.href = 'sign-in.html';
+        }
+        });
+    </script>
 </body>
+
+<script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+  
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyCuvt7fp5mf7FSxSyk-2V6_E2ZB_4paW-U",
+      authDomain: "lockedin-457818.firebaseapp.com",
+      databaseURL: "https://lockedin-457818-default-rtdb.firebaseio.com",
+      projectId: "lockedin-457818",
+      storageBucket: "lockedin-457818.firebasestorage.app",
+      messagingSenderId: "337055109814",
+      appId: "1:337055109814:web:a6dc26c5b6982466da4c17"
+    };
+  
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+
+    import { getDatabase, set, get, update, remove, ref, child} from "https://www.gstatic.com/firebasejs/11.6.1/firebase-database.js";
+
+    const db = getDatabase();
+
+    var enterCompany = document.querySelector("#company");
+    var enterRounds = document.querySelector("#rounds");
+    var enterQuestions = document.querySelector("#questions");
+
+    var submitBtn = document.querySelector(".submit-button");
+
+    function InsertData() {
+        set(ref(db, "Companies/" + enterCompany.value), {
+            Company: enterCompany.value,
+            Rounds: enterRounds.value,
+            Questions: enterQuestions.value
+        })
+        .then(()=>{
+            alert("Data added successfully!")
+        })
+        .catch((error)=> {
+            alert(error)
+        })
+    }
+
+    submitBtn.addEventListener('click', InsertData);
+  </script>
 </html>
